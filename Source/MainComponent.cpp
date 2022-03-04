@@ -45,6 +45,9 @@ void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate
 	// but be careful - it will be called on the audio thread, not the GUI thread.
 
 	// For more details, see the help for AudioProcessor::prepareToPlay()
+
+	phase = 0.0;
+	dphase = 0.0001;
 }
 
 void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
@@ -55,7 +58,21 @@ void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo& buffer
 
 	// Right now we are not producing any data, in which case we need to clear the buffer
 	// (to prevent the output of random noise)
-	bufferToFill.clearActiveBufferRegion();
+
+	auto* leftChan = bufferToFill.buffer->getWritePointer(0, bufferToFill.startSample);
+	auto* rightChan = bufferToFill.buffer->getWritePointer(0, bufferToFill.startSample);
+
+	for (auto i = 0; i < bufferToFill.numSamples; ++i) {
+		// double sample = rand.nextDouble() * 0.25;
+		double sample = fmod(phase, 0.2);
+
+		leftChan[i] = sample;
+		rightChan[i] = sample;
+
+		phase += dphase;
+	}
+
+	// bufferToFill.clearActiveBufferRegion();
 }
 
 void MainComponent::releaseResources()
@@ -96,5 +113,6 @@ void MainComponent::buttonClicked(juce::Button* button) {
 
 void MainComponent::sliderValueChanged(juce::Slider* slider) {
 	if (slider == &volSlider)
-		DBG("Vol slider moved " << slider->getValue());
+		// DBG("Vol slider moved " << slider->getValue());
+		dphase = slider->getValue() * 0.0001;
 }
