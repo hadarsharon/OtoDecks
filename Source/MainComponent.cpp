@@ -26,6 +26,7 @@ MainComponent::MainComponent()
 
 	playButton.addListener(this);
 	stopButton.addListener(this);
+	volSlider.addListener(this);
 }
 
 MainComponent::~MainComponent()
