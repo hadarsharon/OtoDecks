@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="X8xRvn" name="OtoDecks" projectType="guiapp" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
+  <MAINGROUP id="JlEuIW" name="OtoDecks">
+    <GROUP id="{408B8FBF-40D5-1535-251A-2152EFD675C3}" name="Source">
+      <FILE id="kSeNJK" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="FAaSaS" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
+      <FILE id="tBnfic" name="MainComponent.cpp" compile="1" resource="0"
+            file="Source/MainComponent.cpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
+  <EXPORTFORMATS>
+    <VS2022 targetFolder="Builds/VisualStudio2022">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="OtoDecks"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="OtoDecks"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="../../Users/HadarS/Downloads/juce-6.1.5-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../Users/HadarS/Downloads/juce-6.1.5-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../Users/HadarS/Downloads/juce-6.1.5-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../Users/HadarS/Downloads/juce-6.1.5-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../Users/HadarS/Downloads/juce-6.1.5-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../Users/HadarS/Downloads/juce-6.1.5-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../Users/HadarS/Downloads/juce-6.1.5-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../Users/HadarS/Downloads/juce-6.1.5-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../Users/HadarS/Downloads/juce-6.1.5-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../Users/HadarS/Downloads/juce-6.1.5-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../Users/HadarS/Downloads/juce-6.1.5-windows/JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2022>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+  </MODULES>
+</JUCERPROJECT>
