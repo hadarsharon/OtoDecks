@@ -29,4 +29,9 @@ public:
 
 	void start();
 	void stop();
+
+private:
+	juce::AudioFormatManager formatManager;
+	std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
+	juce::AudioTransportSource transportSource;
 };
