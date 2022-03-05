@@ -52,14 +52,13 @@ void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate
 
 	// For more details, see the help for AudioProcessor::prepareToPlay()
 
-	phase = 0.0;
-	dphase = 0.0001;
+	player1.prepareToPlay(samplesPerBlockExpected, sampleRate);
+	
+	//formatManager.registerBasicFormats();
+	//juce::URL audioURL{ "file:///C:\\workspace\\OtoDecks\\Source\\tracks/aon_inspired.mp3" };
 
-	formatManager.registerBasicFormats();
-	juce::URL audioURL{ "file:///C:\\workspace\\OtoDecks\\Source\\tracks/aon_inspired.mp3" };
-
-	transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
-	resampleSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+	//transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+	//resampleSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 
@@ -92,16 +91,13 @@ void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate
 
 void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
 {
-	resampleSource.getNextAudioBlock(bufferToFill);
+	player1.getNextAudioBlock(bufferToFill);
 }
 
 void MainComponent::releaseResources()
 {
-	// This will be called when the audio device stops, or when it is being
-	// restarted due to a setting change.
-
 	// For more details, see the help for AudioProcessor::releaseResources()
-	transportSource.releaseResources();
+	player1.releaseResources();
 }
 
 //==============================================================================
@@ -131,38 +127,26 @@ void MainComponent::resized()
 void MainComponent::buttonClicked(juce::Button* button) {
 	if (button == &playButton) {
 		DBG("Play button was clicked ");
-		transportSource.start();
+		player1.start();
 	}
 	if (button == &stopButton) {
 		DBG("Stop button was clicked ");
-		transportSource.stop();
+		player1.stop();
 	}
 	if (button == &loadButton) {
 		auto dlgFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
 		chooser.launchAsync(dlgFlags, [this](const juce::FileChooser& chooser) {
 			auto fileUri = chooser.getURLResult();
-			loadURL(fileUri);
+			player1.loadURL(fileUri);
 			});
 	}
 }
 
 void MainComponent::sliderValueChanged(juce::Slider* slider) {
 	if (slider == &volSlider) {
-		transportSource.setGain(slider->getValue());
+
 	}
 	if (slider == &speedSlider) {
-		resampleSource.setResamplingRatio(slider->getValue());
-	}
-}
 
-void MainComponent::loadURL(juce::URL audioURL) {
-	auto* reader = formatManager.createReaderFor(audioURL.createInputStream(false));
-	if (reader != nullptr) { // good file!
-		std::unique_ptr<juce::AudioFormatReaderSource> newSource(new juce::AudioFormatReaderSource(reader, true));
-		transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
-		readerSource.reset(newSource.release());
-	}
-	else {
-		DBG("Something went wrong when loading the file");
 	}
 }

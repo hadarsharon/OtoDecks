@@ -12,14 +12,23 @@
 
 void DJAudioPlayer::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
+	// This function will be called when the audio device is started, or when
+	// its settings (i.e. sample rate, block size, etc) are changed.
+	formatManager.registerBasicFormats();
+	transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 void DJAudioPlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
 {
+	// audio-processing code goes here
+	transportSource.getNextAudioBlock(bufferToFill);
 }
 
 void DJAudioPlayer::releaseResources()
 {
+	// This will be called when the audio device stops, or when it is being
+	// restarted due to a setting change.
+	transportSource.releaseResources();
 }
 
 void DJAudioPlayer::loadURL(juce::URL audioURL) {
@@ -48,8 +57,10 @@ void DJAudioPlayer::setPosition(double posInSecs)
 
 void DJAudioPlayer::start()
 {
+	transportSource.start();
 }
 
 void DJAudioPlayer::stop()
 {
+	transportSource.stop();
 }

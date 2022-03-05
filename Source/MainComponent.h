@@ -18,6 +18,11 @@ public:
 	~MainComponent() override;
 
 	//==============================================================================
+	void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
+	void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill) override;
+	void releaseResources() override;
+
+	//==============================================================================
 	void paint(juce::Graphics& g) override;
 	void resized() override;
 
@@ -39,13 +44,6 @@ private:
 	juce::Slider speedSlider;
 
 	juce::FileChooser chooser{ "Select an audio file..." };
-
-	juce::Random rand;
-
-	double phase;
-	double dphase;
-
-	juce::ResamplingAudioSource resampleSource{ &transportSource, false, 2 };
 
 	DJAudioPlayer player1;
 
