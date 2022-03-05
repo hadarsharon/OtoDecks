@@ -50,7 +50,7 @@ void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate
 	dphase = 0.0001;
 
 	formatManager.registerBasicFormats();
-	juce::URL audioURL{ "file:///tracks/aon_inspired.mp3" };
+	juce::URL audioURL{ "file:///C:\\workspace\\OtoDecks\\Source\\tracks/aon_inspired.mp3" };
 
 	auto* reader = formatManager.createReaderFor(audioURL.createInputStream(false));
 	if (reader != nullptr) { // good file!
@@ -59,34 +59,44 @@ void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate
 		readerSource.reset(newSource.release());
 		transportSource.start();
 	}
+	else {
+		DBG("Something went wrong when loading the file");
+	}
 
 	transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
+
+/* SYNTHESIS CODE */
+//void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
+//{
+//	// Your audio-processing code goes here!
+//
+//	// For more details, see the help for AudioProcessor::getNextAudioBlock()
+//
+//	// Right now we are not producing any data, in which case we need to clear the buffer
+//	// (to prevent the output of random noise)
+//
+//	auto* leftChan = bufferToFill.buffer->getWritePointer(0, bufferToFill.startSample);
+//	auto* rightChan = bufferToFill.buffer->getWritePointer(0, bufferToFill.startSample);
+//
+//	for (auto i = 0; i < bufferToFill.numSamples; ++i) {
+//		// double sample = rand.nextDouble() * 0.25;
+//		// double sample = fmod(phase, 0.2);
+//		double sample = sin(phase) * 0.1;
+//
+//		leftChan[i] = sample;
+//		rightChan[i] = sample;
+//
+//		phase += dphase;
+//	}
+//
+//	// bufferToFill.clearActiveBufferRegion();
+//}
+
 void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
 {
-	// Your audio-processing code goes here!
-
-	// For more details, see the help for AudioProcessor::getNextAudioBlock()
-
-	// Right now we are not producing any data, in which case we need to clear the buffer
-	// (to prevent the output of random noise)
-
-	auto* leftChan = bufferToFill.buffer->getWritePointer(0, bufferToFill.startSample);
-	auto* rightChan = bufferToFill.buffer->getWritePointer(0, bufferToFill.startSample);
-
-	for (auto i = 0; i < bufferToFill.numSamples; ++i) {
-		// double sample = rand.nextDouble() * 0.25;
-		// double sample = fmod(phase, 0.2);
-		double sample = sin(phase) * 0.1;
-
-		leftChan[i] = sample;
-		rightChan[i] = sample;
-
-		phase += dphase;
-	}
-
-	// bufferToFill.clearActiveBufferRegion();
+	transportSource.getNextAudioBlock(bufferToFill);
 }
 
 void MainComponent::releaseResources()
@@ -95,6 +105,7 @@ void MainComponent::releaseResources()
 	// restarted due to a setting change.
 
 	// For more details, see the help for AudioProcessor::releaseResources()
+	transportSource.releaseResources();
 }
 
 //==============================================================================
