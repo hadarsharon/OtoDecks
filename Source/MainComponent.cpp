@@ -29,6 +29,8 @@ MainComponent::MainComponent()
 	stopButton.addListener(this);
 	loadButton.addListener(this);
 	volSlider.addListener(this);
+	
+	volSlider.setRange(0.0, 1.0);
 }
 
 MainComponent::~MainComponent()
@@ -125,9 +127,11 @@ void MainComponent::resized()
 void MainComponent::buttonClicked(juce::Button* button) {
 	if (button == &playButton) {
 		DBG("Play button was clicked ");
+		transportSource.start();
 	}
 	if (button == &stopButton) {
 		DBG("Stop button was clicked ");
+		transportSource.stop();
 	}
 	if (button == &loadButton) {
 		auto dlgFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
@@ -139,9 +143,9 @@ void MainComponent::buttonClicked(juce::Button* button) {
 }
 
 void MainComponent::sliderValueChanged(juce::Slider* slider) {
-	if (slider == &volSlider)
-		// DBG("Vol slider moved " << slider->getValue());
-		dphase = slider->getValue() * 0.01;
+	if (slider == &volSlider) {
+		transportSource.setGain(slider->getValue());
+	}
 }
 
 void MainComponent::loadURL(juce::URL audioURL) {
@@ -150,7 +154,6 @@ void MainComponent::loadURL(juce::URL audioURL) {
 		std::unique_ptr<juce::AudioFormatReaderSource> newSource(new juce::AudioFormatReaderSource(reader, true));
 		transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
 		readerSource.reset(newSource.release());
-		transportSource.start();
 	}
 	else {
 		DBG("Something went wrong when loading the file");
