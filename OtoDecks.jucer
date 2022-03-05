@@ -4,6 +4,10 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="JlEuIW" name="OtoDecks">
     <GROUP id="{408B8FBF-40D5-1535-251A-2152EFD675C3}" name="Source">
+      <FILE id="B868E5" name="WaveformDisplay.cpp" compile="1" resource="0"
+            file="Source/WaveformDisplay.cpp"/>
+      <FILE id="YjCr8m" name="WaveformDisplay.h" compile="0" resource="0"
+            file="Source/WaveformDisplay.h"/>
       <FILE id="XE4orW" name="DeckGUI.cpp" compile="1" resource="0" file="Source/DeckGUI.cpp"/>
       <FILE id="csDc92" name="DeckGUI.h" compile="0" resource="0" file="Source/DeckGUI.h"/>
       <FILE id="R7hdNZ" name="DJAudioPlayer.cpp" compile="1" resource="0"
