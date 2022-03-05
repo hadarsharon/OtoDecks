@@ -42,12 +42,12 @@ void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate
 	// For more details, see the help for AudioProcessor::prepareToPlay()
 
 	player1.prepareToPlay(samplesPerBlockExpected, sampleRate);
+	player2.prepareToPlay(samplesPerBlockExpected, sampleRate);
 
-	//formatManager.registerBasicFormats();
-	//juce::URL audioURL{ "file:///C:\\workspace\\OtoDecks\\Source\\tracks/aon_inspired.mp3" };
+	mixerSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
 
-	//transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
-	//resampleSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+	mixerSource.addInputSource(&player1, false);
+	mixerSource.addInputSource(&player2, false);
 }
 
 
@@ -80,13 +80,15 @@ void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate
 
 void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
 {
-	player1.getNextAudioBlock(bufferToFill);
+	mixerSource.getNextAudioBlock(bufferToFill);
 }
 
 void MainComponent::releaseResources()
 {
 	// For more details, see the help for AudioProcessor::releaseResources()
 	player1.releaseResources();
+	player2.releaseResources();
+	mixerSource.releaseResources();
 }
 
 //==============================================================================
