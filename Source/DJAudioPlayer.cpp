@@ -75,6 +75,18 @@ void DJAudioPlayer::setSpeed(double ratio)
 
 void DJAudioPlayer::setPosition(double posInSecs)
 {
+	transportSource.setPosition(posInSecs);
+}
+
+void DJAudioPlayer::setPositionRelative(double pos)
+{
+	if (pos < 0 || pos > 1) {
+		DBG("DJAudioPlayer::setPositionRelative pos should be between 0 and 1 ");
+	}
+	else {
+		double posInSecs = transportSource.getLengthInSeconds() * pos;
+		setPosition(posInSecs);
+	}
 }
 
 void DJAudioPlayer::start()
