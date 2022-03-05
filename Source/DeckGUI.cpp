@@ -22,10 +22,6 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player) : player(_player)
 	addAndMakeVisible(speedSlider);
 	addAndMakeVisible(posSlider);
 
-	volSlider.setRange(0.0, 1.0);
-	speedSlider.setRange(0.0, 100.0);
-	posSlider.setRange(0.0, 1.0);
-
 	playButton.addListener(this);
 	stopButton.addListener(this);
 	loadButton.addListener(this);
@@ -33,6 +29,10 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player) : player(_player)
 	volSlider.addListener(this);
 	speedSlider.addListener(this);
 	posSlider.addListener(this);
+
+	volSlider.setRange(0.0, 1.0);
+	speedSlider.setRange(0.0, 100.0);
+	posSlider.setRange(0.0, 1.0);
 }
 
 DeckGUI::~DeckGUI()
