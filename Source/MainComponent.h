@@ -47,8 +47,6 @@ private:
 
 	juce::ResamplingAudioSource resampleSource{ &transportSource, false, 2 };
 
-	void loadURL(juce::URL audioURL);
-
 	DJAudioPlayer player1;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
