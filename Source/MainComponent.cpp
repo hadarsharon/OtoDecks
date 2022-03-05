@@ -33,7 +33,7 @@ MainComponent::MainComponent()
 	volSlider.addListener(this);
 	speedSlider.addListener(this);
 	posSlider.addListener(this);
-	
+
 	volSlider.setRange(0.0, 1.0);
 	posSlider.setRange(0.0, 1.0);
 }
@@ -56,7 +56,7 @@ void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate
 	// For more details, see the help for AudioProcessor::prepareToPlay()
 
 	player1.prepareToPlay(samplesPerBlockExpected, sampleRate);
-	
+
 	//formatManager.registerBasicFormats();
 	//juce::URL audioURL{ "file:///C:\\workspace\\OtoDecks\\Source\\tracks/aon_inspired.mp3" };
 
@@ -154,6 +154,6 @@ void MainComponent::sliderValueChanged(juce::Slider* slider) {
 		player1.setSpeed(slider->getValue());
 	}
 	if (slider == &posSlider) {
-		player1.setPositionRelative (slider->getValue());
+		player1.setPositionRelative(slider->getValue());
 	}
 }
