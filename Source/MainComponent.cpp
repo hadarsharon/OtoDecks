@@ -106,33 +106,3 @@ void MainComponent::resized()
 	deckGUI1.setBounds(0, 0, getWidth() / 2, getHeight());
 	deckGUI2.setBounds(getWidth() / 2, 0, getWidth() / 2, getHeight());
 }
-
-void MainComponent::buttonClicked(juce::Button* button) {
-	//if (button == &playButton) {
-	//	DBG("Play button was clicked ");
-	//	player1.start();
-	//}
-	//if (button == &stopButton) {
-	//	DBG("Stop button was clicked ");
-	//	player1.stop();
-	//}
-	//if (button == &loadButton) {
-	//	auto dlgFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
-	//	chooser.launchAsync(dlgFlags, [this](const juce::FileChooser& chooser) {
-	//		auto fileUri = chooser.getURLResult();
-	//		player1.loadURL(fileUri);
-	//		});
-	//}
-}
-
-void MainComponent::sliderValueChanged(juce::Slider* slider) {
-	//if (slider == &volSlider) {
-	//	player1.setGain(slider->getValue());
-	//}
-	//if (slider == &speedSlider) {
-	//	player1.setSpeed(slider->getValue());
-	//}
-	//if (slider == &posSlider) {
-	//	player1.setPositionRelative(slider->getValue());
-	//}
-}

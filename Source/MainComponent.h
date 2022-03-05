@@ -27,19 +27,15 @@ public:
 	void paint(juce::Graphics& g) override;
 	void resized() override;
 
-	/** implement Button::Listener */
-	void buttonClicked(juce::Button*) override;
-
-	/** implement Slider::Listener */
-	void sliderValueChanged(juce::Slider* slider) override;
-
 private:
 	//==============================================================================
 	// Your private member variables go here...
 
 	DJAudioPlayer player1;
-	DeckGUI deckGUI1;
-	DeckGUI deckGUI2;
+	DeckGUI deckGUI1{&player1};
+
+	DJAudioPlayer player2;
+	DeckGUI deckGUI2{&player2};
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };
