@@ -117,7 +117,7 @@ void MainComponent::resized()
 	// This is called when the MainContentComponent is resized.
 	// If you add any child components, this is where you should
 	// update their positions.
-	double rowH = getHeight() / 6.0;
+	int rowH = getHeight() / 6;
 	playButton.setBounds(0, 0, getWidth(), rowH);
 	stopButton.setBounds(0, rowH, getWidth(), rowH);
 
