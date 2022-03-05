@@ -22,10 +22,12 @@ MainComponent::MainComponent()
 
 	addAndMakeVisible(playButton);
 	addAndMakeVisible(stopButton);
+	addAndMakeVisible(loadButton);
 	addAndMakeVisible(volSlider);
 
 	playButton.addListener(this);
 	stopButton.addListener(this);
+	loadButton.addListener(this);
 	volSlider.addListener(this);
 }
 
@@ -51,17 +53,6 @@ void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate
 
 	formatManager.registerBasicFormats();
 	juce::URL audioURL{ "file:///C:\\workspace\\OtoDecks\\Source\\tracks/aon_inspired.mp3" };
-
-	auto* reader = formatManager.createReaderFor(audioURL.createInputStream(false));
-	if (reader != nullptr) { // good file!
-		std::unique_ptr<juce::AudioFormatReaderSource> newSource(new juce::AudioFormatReaderSource(reader, true));
-		transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
-		readerSource.reset(newSource.release());
-		transportSource.start();
-	}
-	else {
-		DBG("Something went wrong when loading the file");
-	}
 
 	transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
@@ -127,17 +118,41 @@ void MainComponent::resized()
 	stopButton.setBounds(0, rowH, getWidth(), rowH);
 
 	volSlider.setBounds(0, rowH * 2, getWidth(), rowH);
+
+	loadButton.setBounds(0, rowH * 3, getWidth(), rowH);
 }
 
 void MainComponent::buttonClicked(juce::Button* button) {
-	if (button == &playButton)
+	if (button == &playButton) {
 		DBG("Play button was clicked ");
-	if (button == &stopButton)
+	}
+	if (button == &stopButton) {
 		DBG("Stop button was clicked ");
+	}
+	if (button == &loadButton) {
+		auto dlgFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
+		chooser.launchAsync(dlgFlags, [this](const juce::FileChooser& chooser) {
+			auto fileUri = chooser.getURLResult();
+			loadURL(fileUri);
+			});
+	}
 }
 
 void MainComponent::sliderValueChanged(juce::Slider* slider) {
 	if (slider == &volSlider)
 		// DBG("Vol slider moved " << slider->getValue());
 		dphase = slider->getValue() * 0.01;
+}
+
+void MainComponent::loadURL(juce::URL audioURL) {
+	auto* reader = formatManager.createReaderFor(audioURL.createInputStream(false));
+	if (reader != nullptr) { // good file!
+		std::unique_ptr<juce::AudioFormatReaderSource> newSource(new juce::AudioFormatReaderSource(reader, true));
+		transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
+		readerSource.reset(newSource.release());
+		transportSource.start();
+	}
+	else {
+		DBG("Something went wrong when loading the file");
+	}
 }

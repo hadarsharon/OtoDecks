@@ -37,8 +37,11 @@ private:
 
 	juce::TextButton playButton{ "PLAY" };
 	juce::TextButton stopButton{ "STOP" };
+	juce::TextButton loadButton{ "LOAD" };
 
 	juce::Slider volSlider;
+
+	juce::FileChooser chooser{ "Select an audio file..." };
 
 	juce::Random rand;
 
@@ -50,6 +53,8 @@ private:
 	std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
 
 	juce::AudioTransportSource transportSource;
+
+	void loadURL(juce::URL audioURL);
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };
