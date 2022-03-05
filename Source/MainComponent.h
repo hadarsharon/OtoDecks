@@ -9,9 +9,7 @@
 	This component lives inside our window, and this is where you should put all
 	your controls and content.
 */
-class MainComponent : public juce::AudioAppComponent,
-	public juce::Button::Listener,
-	public juce::Slider::Listener
+class MainComponent : public juce::AudioAppComponent
 {
 public:
 	//==============================================================================
