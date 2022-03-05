@@ -45,5 +45,9 @@ private:
 	double phase;
 	double dphase;
 
+	juce::AudioFormatManager formatManager;
+
+	juce::AudioFormatReaderSource readerSource;
+
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };

@@ -17,7 +17,7 @@ MainComponent::MainComponent()
 	else
 	{
 		// Specify the number of input and output channels that we want to open
-		setAudioChannels(2, 2);
+		setAudioChannels(0, 2);
 	}
 
 	addAndMakeVisible(playButton);
@@ -48,6 +48,19 @@ void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate
 
 	phase = 0.0;
 	dphase = 0.0001;
+
+	formatManager.registerBasicFormats();
+	juce::URL audioURL{ "file:///tracks/aon_inspired.mp3" };
+
+	auto* reader = formatManager.createReaderFor(audioURL.createInputStream(false));
+	if (reader != nullptr) { // good file!
+		std::unique_ptr<juce::AudioFormatReaderSource> newSource(new juce::AudioFormatReaderSource(reader, true));
+		transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
+		readerSource.reset(newSource.release());
+		transportSource.start();
+	}
+
+	transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
@@ -64,7 +77,8 @@ void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo& buffer
 
 	for (auto i = 0; i < bufferToFill.numSamples; ++i) {
 		// double sample = rand.nextDouble() * 0.25;
-		double sample = fmod(phase, 0.2);
+		// double sample = fmod(phase, 0.2);
+		double sample = sin(phase) * 0.1;
 
 		leftChan[i] = sample;
 		rightChan[i] = sample;
@@ -114,5 +128,5 @@ void MainComponent::buttonClicked(juce::Button* button) {
 void MainComponent::sliderValueChanged(juce::Slider* slider) {
 	if (slider == &volSlider)
 		// DBG("Vol slider moved " << slider->getValue());
-		dphase = slider->getValue() * 0.0001;
+		dphase = slider->getValue() * 0.01;
 }
