@@ -25,5 +25,15 @@ public:
     void resized() override;
 
 private:
+    juce::TextButton playButton{ "PLAY" };
+    juce::TextButton stopButton{ "STOP" };
+    juce::TextButton loadButton{ "LOAD" };
+
+    juce::Slider volSlider;
+    juce::Slider speedSlider;
+    juce::Slider posSlider;
+
+    juce::FileChooser chooser{ "Select an audio file..." };
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DeckGUI)
 };

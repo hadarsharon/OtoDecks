@@ -20,22 +20,8 @@ MainComponent::MainComponent()
 		setAudioChannels(0, 2);
 	}
 
-	addAndMakeVisible(playButton);
-	addAndMakeVisible(stopButton);
-	addAndMakeVisible(loadButton);
-	addAndMakeVisible(volSlider);
-	addAndMakeVisible(speedSlider);
-	addAndMakeVisible(posSlider);
-
-	playButton.addListener(this);
-	stopButton.addListener(this);
-	loadButton.addListener(this);
-	volSlider.addListener(this);
-	speedSlider.addListener(this);
-	posSlider.addListener(this);
-
-	volSlider.setRange(0.0, 1.0);
-	posSlider.setRange(0.0, 1.0);
+	addAndMakeVisible(deckGUI1);
+	addAndMakeVisible(deckGUI2);
 }
 
 MainComponent::~MainComponent()
@@ -117,43 +103,36 @@ void MainComponent::resized()
 	// This is called when the MainContentComponent is resized.
 	// If you add any child components, this is where you should
 	// update their positions.
-	int rowH = getHeight() / 6;
-	playButton.setBounds(0, 0, getWidth(), rowH);
-	stopButton.setBounds(0, rowH, getWidth(), rowH);
-
-	volSlider.setBounds(0, rowH * 2, getWidth(), rowH);
-	speedSlider.setBounds(0, rowH * 3, getWidth(), rowH);
-	posSlider.setBounds(0, rowH * 4, getWidth(), rowH);
-
-	loadButton.setBounds(0, rowH * 5, getWidth(), rowH);
+	deckGUI1.setBounds(0, 0, getWidth() / 2, getHeight());
+	deckGUI2.setBounds(getWidth() / 2, 0, getWidth() / 2, getHeight());
 }
 
 void MainComponent::buttonClicked(juce::Button* button) {
-	if (button == &playButton) {
-		DBG("Play button was clicked ");
-		player1.start();
-	}
-	if (button == &stopButton) {
-		DBG("Stop button was clicked ");
-		player1.stop();
-	}
-	if (button == &loadButton) {
-		auto dlgFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
-		chooser.launchAsync(dlgFlags, [this](const juce::FileChooser& chooser) {
-			auto fileUri = chooser.getURLResult();
-			player1.loadURL(fileUri);
-			});
-	}
+	//if (button == &playButton) {
+	//	DBG("Play button was clicked ");
+	//	player1.start();
+	//}
+	//if (button == &stopButton) {
+	//	DBG("Stop button was clicked ");
+	//	player1.stop();
+	//}
+	//if (button == &loadButton) {
+	//	auto dlgFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
+	//	chooser.launchAsync(dlgFlags, [this](const juce::FileChooser& chooser) {
+	//		auto fileUri = chooser.getURLResult();
+	//		player1.loadURL(fileUri);
+	//		});
+	//}
 }
 
 void MainComponent::sliderValueChanged(juce::Slider* slider) {
-	if (slider == &volSlider) {
-		player1.setGain(slider->getValue());
-	}
-	if (slider == &speedSlider) {
-		player1.setSpeed(slider->getValue());
-	}
-	if (slider == &posSlider) {
-		player1.setPositionRelative(slider->getValue());
-	}
+	//if (slider == &volSlider) {
+	//	player1.setGain(slider->getValue());
+	//}
+	//if (slider == &speedSlider) {
+	//	player1.setSpeed(slider->getValue());
+	//}
+	//if (slider == &posSlider) {
+	//	player1.setPositionRelative(slider->getValue());
+	//}
 }
