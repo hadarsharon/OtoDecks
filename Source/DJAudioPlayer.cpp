@@ -10,18 +10,27 @@
 
 #include "DJAudioPlayer.h"
 
+DJAudioPlayer::DJAudioPlayer()
+{
+}
+
+DJAudioPlayer::~DJAudioPlayer()
+{
+}
+
 void DJAudioPlayer::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
 	// This function will be called when the audio device is started, or when
 	// its settings (i.e. sample rate, block size, etc) are changed.
 	formatManager.registerBasicFormats();
 	transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+	resampleSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 void DJAudioPlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
 {
 	// audio-processing code goes here
-	transportSource.getNextAudioBlock(bufferToFill);
+	resampleSource.getNextAudioBlock(bufferToFill);
 }
 
 void DJAudioPlayer::releaseResources()
@@ -29,6 +38,7 @@ void DJAudioPlayer::releaseResources()
 	// This will be called when the audio device stops, or when it is being
 	// restarted due to a setting change.
 	transportSource.releaseResources();
+	resampleSource.releaseResources();
 }
 
 void DJAudioPlayer::loadURL(juce::URL audioURL) {
