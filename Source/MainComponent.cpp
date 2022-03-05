@@ -24,11 +24,13 @@ MainComponent::MainComponent()
 	addAndMakeVisible(stopButton);
 	addAndMakeVisible(loadButton);
 	addAndMakeVisible(volSlider);
+	addAndMakeVisible(speedSlider);
 
 	playButton.addListener(this);
 	stopButton.addListener(this);
 	loadButton.addListener(this);
 	volSlider.addListener(this);
+	speedSlider.addListener(this);
 	
 	volSlider.setRange(0.0, 1.0);
 }
@@ -57,6 +59,7 @@ void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate
 	juce::URL audioURL{ "file:///C:\\workspace\\OtoDecks\\Source\\tracks/aon_inspired.mp3" };
 
 	transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+	resampleSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 
@@ -89,7 +92,7 @@ void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate
 
 void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
 {
-	transportSource.getNextAudioBlock(bufferToFill);
+	resampleSource.getNextAudioBlock(bufferToFill);
 }
 
 void MainComponent::releaseResources()
@@ -120,8 +123,9 @@ void MainComponent::resized()
 	stopButton.setBounds(0, rowH, getWidth(), rowH);
 
 	volSlider.setBounds(0, rowH * 2, getWidth(), rowH);
+	speedSlider.setBounds(0, rowH * 3, getWidth(), rowH);
 
-	loadButton.setBounds(0, rowH * 3, getWidth(), rowH);
+	loadButton.setBounds(0, rowH * 4, getWidth(), rowH);
 }
 
 void MainComponent::buttonClicked(juce::Button* button) {
@@ -145,6 +149,9 @@ void MainComponent::buttonClicked(juce::Button* button) {
 void MainComponent::sliderValueChanged(juce::Slider* slider) {
 	if (slider == &volSlider) {
 		transportSource.setGain(slider->getValue());
+	}
+	if (slider == &speedSlider) {
+		resampleSource.setResamplingRatio(slider->getValue());
 	}
 }
 

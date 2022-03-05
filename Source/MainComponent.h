@@ -40,6 +40,7 @@ private:
 	juce::TextButton loadButton{ "LOAD" };
 
 	juce::Slider volSlider;
+	juce::Slider speedSlider;
 
 	juce::FileChooser chooser{ "Select an audio file..." };
 
@@ -53,6 +54,8 @@ private:
 	std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
 
 	juce::AudioTransportSource transportSource;
+
+	juce::ResamplingAudioSource resampleSource{ &transportSource, false, 2 };
 
 	void loadURL(juce::URL audioURL);
 
