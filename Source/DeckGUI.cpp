@@ -109,4 +109,7 @@ bool DeckGUI::isInterestedInFileDrag(const juce::StringArray& files)
 
 void DeckGUI::filesDropped(const juce::StringArray& files, int x, int y)
 {
+	if (files.size() == 1) {
+		player->loadURL(juce::URL(juce::File{ files[0] }));
+	}
 }
