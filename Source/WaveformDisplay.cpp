@@ -14,11 +14,11 @@
 //==============================================================================
 WaveformDisplay::WaveformDisplay(
 	juce::AudioFormatManager& formatManagerToUse,
-	juce::AudioThumbnailCache& cacheToUse) : audioThumb(1000, formatManagerToUse, cacheToUse)
+	juce::AudioThumbnailCache& cacheToUse) : audioThumb(1000, formatManagerToUse, cacheToUse), fileLoaded(false)
 {
 	// In your constructor, you should add any child components, and
 	// initialise any special settings that your component needs.
-
+	audioThumb.addChangeListener(this);
 }
 
 WaveformDisplay::~WaveformDisplay()
@@ -58,11 +58,17 @@ void WaveformDisplay::resized()
 
 }
 
+void WaveformDisplay::changeListenerCallback(juce::ChangeBroadcaster* source)
+{
+	repaint();
+}
+
 void WaveformDisplay::loadURL(juce::URL audioURL)
 {
+	audioThumb.clear();
 	fileLoaded = audioThumb.setSource(new juce::URLInputSource(audioURL));
 	if (fileLoaded) {
-		;
+		repaint();
 	}
 	else {
 		DBG("WaveformDisplay::loadURL: not loaded!");

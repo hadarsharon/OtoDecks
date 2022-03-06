@@ -1,9 +1,9 @@
 /*
   ==============================================================================
 
-    WaveformDisplay.h
-    Created: 5 Mar 2022 7:38:57pm
-    Author:  HadarS
+	WaveformDisplay.h
+	Created: 5 Mar 2022 7:38:57pm
+	Author:  HadarS
 
   ==============================================================================
 */
@@ -15,20 +15,22 @@
 //==============================================================================
 /*
 */
-class WaveformDisplay  : public juce::Component
+class WaveformDisplay : public juce::Component, public juce::ChangeListener
 {
 public:
-    WaveformDisplay(juce::AudioFormatManager& formatManagerToUse, juce::AudioThumbnailCache& cacheToUse);
-    ~WaveformDisplay() override;
+	WaveformDisplay(juce::AudioFormatManager& formatManagerToUse, juce::AudioThumbnailCache& cacheToUse);
+	~WaveformDisplay() override;
 
-    void paint (juce::Graphics&) override;
-    void resized() override;
+	void paint(juce::Graphics&) override;
+	void resized() override;
 
-    void loadURL(juce::URL audioURL);
+	void changeListenerCallback(juce::ChangeBroadcaster* source) override;
+
+	void loadURL(juce::URL audioURL);
 
 private:
-    juce::AudioThumbnail audioThumb;
-    bool fileLoaded;
+	juce::AudioThumbnail audioThumb;
+	bool fileLoaded;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WaveformDisplay)
+	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WaveformDisplay)
 };
