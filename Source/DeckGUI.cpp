@@ -93,6 +93,7 @@ void DeckGUI::buttonClicked(juce::Button* button) {
 		chooser.launchAsync(dlgFlags, [this](const juce::FileChooser& chooser) {
 			auto fileUri = chooser.getURLResult();
 			player->loadURL(fileUri);
+			waveformDisplay.loadURL(fileUri);
 			});
 	}
 }

@@ -51,3 +51,14 @@ void WaveformDisplay::resized()
 	// components that your component contains..
 
 }
+
+void WaveformDisplay::loadURL(juce::URL audioURL)
+{
+	bool loaded = audioThumb.setSource(new juce::URLInputSource(audioURL));
+	if (loaded) {
+		;
+	}
+	else {
+		DBG("WaveformDisplay::loadURL: not loaded!");
+	}
+}

@@ -24,8 +24,10 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
+    void loadURL(juce::URL audioURL);
+
 private:
-    juce::AudioThumbnail audioThumb{};
+    juce::AudioThumbnail audioThumb;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WaveformDisplay)
 };
