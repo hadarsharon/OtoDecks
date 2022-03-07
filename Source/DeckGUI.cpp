@@ -39,10 +39,13 @@ DeckGUI::DeckGUI(
 	volSlider.setRange(0.0, 1.0);
 	speedSlider.setRange(0.0, 100.0);
 	posSlider.setRange(0.0, 1.0);
+
+	startTimer(500);
 }
 
 DeckGUI::~DeckGUI()
 {
+	stopTimer();
 }
 
 void DeckGUI::paint(juce::Graphics& g)
@@ -120,4 +123,9 @@ void DeckGUI::filesDropped(const juce::StringArray& files, int x, int y)
 	if (files.size() == 1) {
 		player->loadURL(juce::URL(juce::File{ files[0] }));
 	}
+}
+
+void DeckGUI::timerCallback()
+{
+	waveformDisplay.setPositionRelative(player->getPositionRelative());
 }
