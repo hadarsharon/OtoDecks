@@ -76,3 +76,8 @@ void PlaylistComponent::paintCell(juce::Graphics& g, int rowNumber, int columnId
 {
 	g.drawText(trackTitles[rowNumber], 2, 0, width - 4, height, juce::Justification::centredLeft, true);
 }
+
+juce::Component* PlaylistComponent::refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, juce::Component* existingComponentToUpdate)
+{
+	return nullptr;
+}
