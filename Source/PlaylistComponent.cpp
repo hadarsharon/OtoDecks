@@ -18,9 +18,10 @@ PlaylistComponent::PlaylistComponent()
 	// initialise any special settings that your component needs.
 	trackTitles.push_back("Track 1");
 	trackTitles.push_back("Track 2");
-	
+
 	tableComponent.getHeader().addColumn("Track title", 1, 400);
 	tableComponent.getHeader().addColumn("Artist", 2, 400);
+	tableComponent.setModel(this);
 
 	addAndMakeVisible(tableComponent);
 }
@@ -58,13 +59,20 @@ void PlaylistComponent::resized()
 
 int PlaylistComponent::getNumRows()
 {
-	return 0;
+	return trackTitles.size();
 }
 
-void PlaylistComponent::paintRowBackground(juce::Graphics&, int rowNumber, int width, int height, bool rowIsSelected)
+void PlaylistComponent::paintRowBackground(juce::Graphics& g, int rowNumber, int width, int height, bool rowIsSelected)
 {
+	if (rowIsSelected) {
+		g.fillAll(juce::Colours::orange);
+	}
+	else {
+		g.fillAll(juce::Colours::darkgrey);
+	}
 }
 
-void PlaylistComponent::paintCell(juce::Graphics&, int rowNumber, int columnId, int width, int height, bool rowIsSelected)
+void PlaylistComponent::paintCell(juce::Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected)
 {
+	g.drawText(trackTitles[rowNumber], 2, 0, width - 4, height, juce::Justification::centredLeft, true);
 }
