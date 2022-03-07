@@ -16,7 +16,11 @@ PlaylistComponent::PlaylistComponent()
 {
 	// In your constructor, you should add any child components, and
 	// initialise any special settings that your component needs.
+	trackTitles.push_back("Track 1");
+	trackTitles.push_back("Track 2");
+	
 	tableComponent.getHeader().addColumn("Track title", 1, 400);
+	tableComponent.getHeader().addColumn("Artist", 2, 400);
 
 	addAndMakeVisible(tableComponent);
 }
@@ -50,4 +54,17 @@ void PlaylistComponent::resized()
 	// This method is where you should set the bounds of any child
 	// components that your component contains..
 	tableComponent.setBounds(0, 0, getWidth(), getHeight());
+}
+
+int PlaylistComponent::getNumRows()
+{
+	return 0;
+}
+
+void PlaylistComponent::paintRowBackground(juce::Graphics&, int rowNumber, int width, int height, bool rowIsSelected)
+{
+}
+
+void PlaylistComponent::paintCell(juce::Graphics&, int rowNumber, int columnId, int width, int height, bool rowIsSelected)
+{
 }
