@@ -74,3 +74,11 @@ void WaveformDisplay::loadURL(juce::URL audioURL)
 		DBG("WaveformDisplay::loadURL: not loaded!");
 	}
 }
+
+void WaveformDisplay::setPositionRelative(double pos)
+{
+	if (pos != position) {
+		position = pos;
+		repaint();
+	}
+}

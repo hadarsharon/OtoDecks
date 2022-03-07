@@ -31,6 +31,9 @@ public:
 	void start();
 	void stop();
 
+	/** get the relative position of the playhead */
+	double getPositionRelative();
+
 private:
 	juce::AudioFormatManager& formatManager;
 	std::unique_ptr<juce::AudioFormatReaderSource> readerSource;

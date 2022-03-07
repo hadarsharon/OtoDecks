@@ -22,7 +22,6 @@ void DJAudioPlayer::prepareToPlay(int samplesPerBlockExpected, double sampleRate
 {
 	// This function will be called when the audio device is started, or when
 	// its settings (i.e. sample rate, block size, etc) are changed.
-	formatManager.registerBasicFormats();
 	transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
 	resampleSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
@@ -97,4 +96,9 @@ void DJAudioPlayer::start()
 void DJAudioPlayer::stop()
 {
 	transportSource.stop();
+}
+
+double DJAudioPlayer::getPositionRelative()
+{
+	return transportSource.getCurrentPosition() / transportSource.getLengthInSeconds();
 }
