@@ -1,9 +1,9 @@
 /*
   ==============================================================================
 
-    PlaylistComponent.h
-    Created: 7 Mar 2022 10:23:33pm
-    Author:  HadarS
+	PlaylistComponent.h
+	Created: 7 Mar 2022 10:23:33pm
+	Author:  HadarS
 
   ==============================================================================
 */
@@ -15,15 +15,17 @@
 //==============================================================================
 /*
 */
-class PlaylistComponent  : public juce::Component
+class PlaylistComponent : public juce::Component
 {
 public:
-    PlaylistComponent();
-    ~PlaylistComponent() override;
+	PlaylistComponent();
+	~PlaylistComponent() override;
 
-    void paint (juce::Graphics&) override;
-    void resized() override;
+	void paint(juce::Graphics&) override;
+	void resized() override;
 
 private:
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlaylistComponent)
+	juce::TableListBox tableComponent;
+
+	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlaylistComponent)
 };
