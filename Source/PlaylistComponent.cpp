@@ -18,6 +18,10 @@ PlaylistComponent::PlaylistComponent()
 	// initialise any special settings that your component needs.
 	trackTitles.push_back("Track 1");
 	trackTitles.push_back("Track 2");
+	trackTitles.push_back("Track 3");
+	trackTitles.push_back("Track 4");
+	trackTitles.push_back("Track 5");
+	trackTitles.push_back("Track 6");
 
 	tableComponent.getHeader().addColumn("Track title", 1, 400);
 	tableComponent.getHeader().addColumn("Artist", 2, 400);
@@ -79,5 +83,10 @@ void PlaylistComponent::paintCell(juce::Graphics& g, int rowNumber, int columnId
 
 juce::Component* PlaylistComponent::refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, juce::Component* existingComponentToUpdate)
 {
-	return nullptr;
+	if (columnId == 1) {
+		if (existingComponentToUpdate == nullptr) {
+			existingComponentToUpdate = new juce::TextButton{ "Play" };
+		}
+	}
+	return existingComponentToUpdate;
 }
