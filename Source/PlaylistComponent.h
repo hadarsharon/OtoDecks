@@ -17,7 +17,7 @@
 //==============================================================================
 /*
 */
-class PlaylistComponent : public juce::Component, public juce::TableListBoxModel
+class PlaylistComponent : public juce::Component, public juce::TableListBoxModel, public juce::Button::Listener
 {
 public:
 	PlaylistComponent();
@@ -30,6 +30,7 @@ public:
 	void paintRowBackground(juce::Graphics&, int rowNumber, int width, int height, bool rowIsSelected) override;
 	void paintCell(juce::Graphics&, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
 	juce::Component* refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, juce::Component* existingComponentToUpdate) override;
+	void buttonClicked(juce::Button* button) override;
 
 
 private:
