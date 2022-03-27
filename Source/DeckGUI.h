@@ -45,16 +45,23 @@ private:
 	juce::TextButton playButton{ "PLAY" };
 	juce::TextButton stopButton{ "STOP" };
 	juce::TextButton loadButton{ "LOAD" };
+	juce::ArrowButton rewindButton{ "REWIND" , 0.5, juce::Colours::lightseagreen };
+	juce::ArrowButton forwardButton{ "FORWARD" , 0.0, juce::Colours::lightseagreen };
+
+	juce::Label rewindLabel;
+	juce::Label forwardLabel;
 
 	juce::Label dbBox;
 
+	juce::Slider granularitySlider;
+	juce::Slider posSlider;
 	juce::Slider volSlider;
 	juce::Slider speedSlider;
-	juce::Slider posSlider;
 	
+	juce::Label granularityLabel;
+	juce::Label posLabel;
 	juce::Label volLabel;
 	juce::Label speedLabel;
-	juce::Label posLabel;
 	
 	juce::FileChooser chooser{ "Select an audio file..." };
 

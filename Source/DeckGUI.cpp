@@ -21,58 +21,80 @@ DeckGUI::DeckGUI(
 	addAndMakeVisible(playButton);
 	addAndMakeVisible(stopButton);
 	addAndMakeVisible(loadButton);
+	addAndMakeVisible(rewindButton);
+	addAndMakeVisible(forwardButton);
+
+	addAndMakeVisible(rewindLabel);
+	addAndMakeVisible(forwardLabel);
 
 	addAndMakeVisible(dbBox);
 
-	addAndMakeVisible(volSlider);
-	addAndMakeVisible(speedSlider);
+	addAndMakeVisible(granularitySlider);
 	addAndMakeVisible(posSlider);
+	addAndMakeVisible(speedSlider);
+	addAndMakeVisible(volSlider);
 
-	addAndMakeVisible(volLabel);
-	addAndMakeVisible(speedLabel);
+	addAndMakeVisible(granularityLabel);
 	addAndMakeVisible(posLabel);
+	addAndMakeVisible(speedLabel);
+	addAndMakeVisible(volLabel);
 
 	addAndMakeVisible(waveformDisplay);
 
 	playButton.addListener(this);
 	stopButton.addListener(this);
 	loadButton.addListener(this);
+	rewindButton.addListener(this);
+	forwardButton.addListener(this);
+
+	rewindLabel.setText("REWIND", juce::dontSendNotification);
+	forwardLabel.setText("FORWARD", juce::dontSendNotification);
+
+	rewindLabel.attachToComponent(&rewindButton, false);
+	forwardLabel.attachToComponent(&forwardButton, false);
 
 	dbBox.setText("File not loaded...", juce::dontSendNotification);
 	dbBox.setJustificationType(juce::Justification::centred);
 
-	volSlider.addListener(this);
-	speedSlider.addListener(this);
+	granularitySlider.addListener(this);
 	posSlider.addListener(this);
+	speedSlider.addListener(this);
+	volSlider.addListener(this);
 
 	// TODO: move to function
-	volSlider.setRange(0.0, 150.0, 1.0);
-	speedSlider.setRange(0.0, 200.0, 1.0);
+	granularitySlider.setRange(1.0, 10.0, 1.0);
 	posSlider.setRange(0.0, 0.0, 1.0);
+	speedSlider.setRange(0.0, 200.0, 1.0);
+	volSlider.setRange(0.0, 150.0, 1.0);
 
-	volSlider.setValue(75.0);
-	speedSlider.setValue(100.0);
+	granularitySlider.setValue(1.0);
 	posSlider.setValue(0.0);
+	speedSlider.setValue(100.0);
+	volSlider.setValue(75.0);
 
-	volSlider.setNumDecimalPlacesToDisplay(0);
-	speedSlider.setNumDecimalPlacesToDisplay(0);
+	granularitySlider.setValue(0);
 	posSlider.setNumDecimalPlacesToDisplay(0);
+	speedSlider.setNumDecimalPlacesToDisplay(0);
+	volSlider.setNumDecimalPlacesToDisplay(0);
 
-	volSlider.setTextValueSuffix(" %");
-	speedSlider.setTextValueSuffix(" %");
+	granularitySlider.setTextValueSuffix(" s");
 	posSlider.setTextValueSuffix(" s");
+	speedSlider.setTextValueSuffix(" %");
+	volSlider.setTextValueSuffix(" %");
 
-	volSlider.setEnabled(false);
-	speedSlider.setEnabled(false);
 	posSlider.setEnabled(false);
+	speedSlider.setEnabled(false);
+	volSlider.setEnabled(false);
 
-	volLabel.setText("Volume", juce::dontSendNotification);
-	speedLabel.setText("Speed", juce::dontSendNotification);
+	granularityLabel.setText("Granularity", juce::dontSendNotification);
 	posLabel.setText("Position", juce::dontSendNotification);
+	speedLabel.setText("Speed", juce::dontSendNotification);
+	volLabel.setText("Volume", juce::dontSendNotification);
 	
-	volLabel.attachToComponent(&volSlider, true);
-	speedLabel.attachToComponent(&speedSlider, true);
+	granularityLabel.attachToComponent(&granularitySlider, true);
 	posLabel.attachToComponent(&posSlider, true);
+	speedLabel.attachToComponent(&speedSlider, true);
+	volLabel.attachToComponent(&volSlider, true);
 
 	startTimer(500);
 }
@@ -91,69 +113,76 @@ void DeckGUI::paint(juce::Graphics& g)
 
 	g.setColour(juce::Colours::white);
 	g.setFont(14.0f);
-	//g.drawText("DeckGUI", getLocalBounds(),
-	//	juce::Justification::centred, true);   // draw some placeholder text
 }
 
 void DeckGUI::resized()
 {
-	// This method is where you should set the bounds of any child
-	// components that your component contains..
-	int rowH = getHeight() / 9;
-	auto sliderLeft = 60;
-	playButton.setBounds(0, 0, getWidth(), rowH);
-	stopButton.setBounds(0, rowH, getWidth(), rowH);
-	dbBox.setBounds(0, rowH * 2, getWidth(), rowH);
-	volSlider.setBounds(sliderLeft, rowH * 3, getWidth() - sliderLeft - 6, rowH);
-	speedSlider.setBounds(sliderLeft, rowH * 4, getWidth() - sliderLeft - 6, rowH);
-	posSlider.setBounds(sliderLeft, rowH * 5, getWidth() - sliderLeft - 6, rowH);
-	waveformDisplay.setBounds(0, rowH * 6, getWidth(), rowH * 2);
-	loadButton.setBounds(0, rowH * 8, getWidth(), rowH);
+	int numRows = 11;
+	int rowH = getHeight() / numRows;
+	auto sliderLeft = 60; // margin for sliders to fit labels
+	int buttonsMargin = 5; // margin for play/stop/rewind/forward buttons
+	playButton.setBounds(0, 0, getWidth() / 3.5, rowH * 2);
+	stopButton.setBounds(getWidth() / 3.5 + buttonsMargin, 0, getWidth() / 3.5, rowH * 2);
+	rewindButton.setBounds(getWidth() / 1.6, rowH, getWidth() / 7, rowH);
+	forwardButton.setBounds(getWidth() / 1.25, rowH, getWidth() / 7, rowH);
+	granularitySlider.setBounds(sliderLeft, rowH * 3, getWidth() - sliderLeft - 6, rowH);
+	posSlider.setBounds(sliderLeft, rowH * 4, getWidth() - sliderLeft - 6, rowH);
+	speedSlider.setBounds(sliderLeft, rowH * 5, getWidth() - sliderLeft - 6, rowH);
+	volSlider.setBounds(sliderLeft, rowH * 6, getWidth() - sliderLeft - 6, rowH);
+	dbBox.setBounds(0, rowH * 7, getWidth(), rowH);
+	waveformDisplay.setBounds(0, rowH * 8, getWidth(), rowH * 2);
+	loadButton.setBounds(0, rowH * 10, getWidth(), rowH);
 }
 
 void DeckGUI::buttonClicked(juce::Button* button) {
 	if (button == &playButton) {
-		DBG("Play button was clicked ");
 		player->start();
 	}
 	if (button == &stopButton) {
-		DBG("Stop button was clicked ");
 		player->stop();
+	}
+	if (button == &rewindButton) {
+		player->setPosition(player->getPositionAbsolute() - granularitySlider.getValue());
+	}
+	if (button == &forwardButton) {
+		player->setPosition(player->getPositionAbsolute() + granularitySlider.getValue());
 	}
 	if (button == &loadButton) {
 		auto dlgFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
 		chooser.launchAsync(dlgFlags, [this](const juce::FileChooser& chooser) {
-			auto fileUri = chooser.getURLResult();
-			player->loadURL(fileUri);
-			waveformDisplay.loadURL(fileUri);
-			speedSlider.setValue(100.0);
-			double AudioFileLengthInSeconds = player->getLengthInSeconds();
-			posSlider.setRange(0, AudioFileLengthInSeconds, 1.0);
-			posSlider.setValue(0.0);
-			std::string newPosSuffix = " s / " + std::to_string((int)AudioFileLengthInSeconds) + " s";
-			posSlider.setTextValueSuffix(newPosSuffix);
-			volSlider.setEnabled(true);
-			speedSlider.setEnabled(true);
-			posSlider.setEnabled(true);
-			std::string gainInDecibels = std::to_string(player->getGainInDecibels()) + " dB";
-			dbBox.setText(gainInDecibels, juce::dontSendNotification);
+			juce::URL fileUri = chooser.getURLResult();
+			if (!fileUri.isEmpty()) {
+				player->loadURL(fileUri);
+				waveformDisplay.loadURL(fileUri);
+				speedSlider.setValue(100.0);
+				double AudioFileLengthInSeconds = player->getLengthInSeconds();
+				posSlider.setRange(0, AudioFileLengthInSeconds, 1.0);
+				posSlider.setValue(0.0);
+				std::string newPosSuffix = " s / " + std::to_string((int)AudioFileLengthInSeconds) + " s";
+				posSlider.setTextValueSuffix(newPosSuffix);
+				volSlider.setEnabled(true);
+				speedSlider.setEnabled(true);
+				posSlider.setEnabled(true);
+				std::string gainInDecibels = std::to_string(player->getGainInDecibels()) + " dB";
+				dbBox.setText(gainInDecibels, juce::dontSendNotification);
+			}
 			});
 	}
 }
 
 void DeckGUI::sliderValueChanged(juce::Slider* slider) {
+	if (slider == &posSlider) {
+		player->setPosition(slider->getValue());
+	}
+	if (slider == &speedSlider) {
+		player->setSpeed(slider->getValue() / 100);
+	}
 	if (slider == &volSlider) {
 		player->setGain(slider->getValue() / 100);
 		if (slider->isEnabled()) {
 			std::string gainInDecibels = std::to_string(player->getGainInDecibels()) + " dB";
 			dbBox.setText(gainInDecibels, juce::dontSendNotification);
 		}
-	}
-	if (slider == &speedSlider) {
-		player->setSpeed(slider->getValue() / 100);
-	}
-	if (slider == &posSlider) {
-		player->setPosition(slider->getValue());
 	}
 }
 
