@@ -54,6 +54,8 @@ private:
 	juce::Label speedLabel;
 	juce::Label posLabel;
 
+	juce::DrawableText dbBox;
+
 	juce::FileChooser chooser{ "Select an audio file..." };
 
 	DJAudioPlayer* player;

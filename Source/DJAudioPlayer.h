@@ -37,8 +37,11 @@ public:
 	/** get the absolute position of the playhead */
 	double getPositionAbsolute();
 
-	/** get length of audio file */
+	/** get length of audio file in seconds */
 	double getLengthInSeconds();
+
+	/** get gain of audio file in decibels */
+	float getGainInDecibels();
 
 private:
 	juce::AudioFormatManager& formatManager;

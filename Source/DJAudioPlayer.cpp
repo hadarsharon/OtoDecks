@@ -54,8 +54,8 @@ void DJAudioPlayer::loadURL(juce::URL audioURL) {
 
 void DJAudioPlayer::setGain(double gain)
 {
-	if (gain < 0 || gain > 1) {
-		DBG("DJAudioPlayer::setGain gain should be between 0 and 1 ");
+	if (gain < 0 || gain > 1.5) {
+		DBG("DJAudioPlayer::setGain gain should be between 0 and 1.5 ");
 	}
 	else {
 		transportSource.setGain(gain);
@@ -125,5 +125,15 @@ double DJAudioPlayer::getLengthInSeconds()
 	}
 	else {
 		return 0.0;
+	}
+}
+
+float DJAudioPlayer::getGainInDecibels()
+{
+	if (transportSource.getGain()) {
+		return juce::Decibels::gainToDecibels(transportSource.getGain());
+	}
+	else {
+		return -std::numeric_limits<float>::infinity();
 	}
 }

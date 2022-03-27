@@ -22,6 +22,8 @@ DeckGUI::DeckGUI(
 	addAndMakeVisible(stopButton);
 	addAndMakeVisible(loadButton);
 
+	addAndMakeVisible(dbBox);
+
 	addAndMakeVisible(volSlider);
 	addAndMakeVisible(speedSlider);
 	addAndMakeVisible(posSlider);
@@ -41,11 +43,11 @@ DeckGUI::DeckGUI(
 	posSlider.addListener(this);
 
 	// TODO: move to function
-	volSlider.setRange(0.0, 100.0, 1.0);
+	volSlider.setRange(0.0, 150.0, 1.0);
 	speedSlider.setRange(0.0, 200.0, 1.0);
 	posSlider.setRange(0.0, 0.0, 1.0);
 
-	volSlider.setValue(50.0);
+	volSlider.setValue(75.0);
 	speedSlider.setValue(100.0);
 	posSlider.setValue(0.0);
 
@@ -69,6 +71,8 @@ DeckGUI::DeckGUI(
 	speedLabel.attachToComponent(&speedSlider, true);
 	posLabel.attachToComponent(&posSlider, true);
 
+	dbBox.setText("File not loaded...");
+
 	startTimer(500);
 }
 
@@ -79,13 +83,6 @@ DeckGUI::~DeckGUI()
 
 void DeckGUI::paint(juce::Graphics& g)
 {
-	/* This demo code just fills the component's background and
-	   draws some placeholder text to get you started.
-
-	   You should replace everything in this method with your own
-	   drawing code..
-	*/
-
 	g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));   // clear the background
 
 	g.setColour(juce::Colours::grey);
@@ -101,15 +98,16 @@ void DeckGUI::resized()
 {
 	// This method is where you should set the bounds of any child
 	// components that your component contains..
-	int rowH = getHeight() / 8;
+	int rowH = getHeight() / 9;
 	auto sliderLeft = 60;
 	playButton.setBounds(0, 0, getWidth(), rowH);
 	stopButton.setBounds(0, rowH, getWidth(), rowH);
-	volSlider.setBounds(sliderLeft, rowH * 2, getWidth() - sliderLeft - 6, rowH);
-	speedSlider.setBounds(sliderLeft, rowH * 3, getWidth() - sliderLeft - 6, rowH);
-	posSlider.setBounds(sliderLeft, rowH * 4, getWidth() - sliderLeft - 6, rowH);
-	waveformDisplay.setBounds(0, rowH * 5, getWidth(), rowH * 2);
-	loadButton.setBounds(0, rowH * 7, getWidth(), rowH);
+	dbBox.setBounds(0, rowH * 2, getWidth(), rowH);
+	volSlider.setBounds(sliderLeft, rowH * 3, getWidth() - sliderLeft - 6, rowH);
+	speedSlider.setBounds(sliderLeft, rowH * 4, getWidth() - sliderLeft - 6, rowH);
+	posSlider.setBounds(sliderLeft, rowH * 5, getWidth() - sliderLeft - 6, rowH);
+	waveformDisplay.setBounds(0, rowH * 6, getWidth(), rowH * 2);
+	loadButton.setBounds(0, rowH * 8, getWidth(), rowH);
 }
 
 void DeckGUI::buttonClicked(juce::Button* button) {
@@ -136,6 +134,8 @@ void DeckGUI::buttonClicked(juce::Button* button) {
 			volSlider.setEnabled(true);
 			speedSlider.setEnabled(true);
 			posSlider.setEnabled(true);
+			std::string gainInDecibels = std::to_string(player->getGainInDecibels()) + " dB";
+			dbBox.setText(gainInDecibels);
 			});
 	}
 }
@@ -143,6 +143,10 @@ void DeckGUI::buttonClicked(juce::Button* button) {
 void DeckGUI::sliderValueChanged(juce::Slider* slider) {
 	if (slider == &volSlider) {
 		player->setGain(slider->getValue() / 100);
+		if (slider->isEnabled()) {
+			std::string gainInDecibels = std::to_string(player->getGainInDecibels()) + " dB";
+			dbBox.setText(gainInDecibels);
+		}
 	}
 	if (slider == &speedSlider) {
 		player->setSpeed(slider->getValue() / 100);
