@@ -39,6 +39,7 @@ DeckGUI::DeckGUI(
 	loadButton.addListener(this);
 
 	dbBox.setText("File not loaded...", juce::dontSendNotification);
+	dbBox.setJustificationType(juce::Justification::centred);
 
 	volSlider.addListener(this);
 	speedSlider.addListener(this);
