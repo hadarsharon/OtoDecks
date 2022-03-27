@@ -107,3 +107,23 @@ double DJAudioPlayer::getPositionRelative()
 		return 0.0;
 	}
 }
+
+double DJAudioPlayer::getPositionAbsolute()
+{
+	if (transportSource.getCurrentPosition()) {
+		return transportSource.getCurrentPosition();
+	}
+	else {
+		return 0.0;
+	}
+}
+
+double DJAudioPlayer::getLengthInSeconds()
+{
+	if (transportSource.getLengthInSeconds()) {
+		return transportSource.getLengthInSeconds();
+	}
+	else {
+		return 0.0;
+	}
+}

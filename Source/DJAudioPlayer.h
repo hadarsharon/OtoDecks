@@ -34,6 +34,12 @@ public:
 	/** get the relative position of the playhead */
 	double getPositionRelative();
 
+	/** get the absolute position of the playhead */
+	double getPositionAbsolute();
+
+	/** get length of audio file */
+	double getLengthInSeconds();
+
 private:
 	juce::AudioFormatManager& formatManager;
 	std::unique_ptr<juce::AudioFormatReaderSource> readerSource;

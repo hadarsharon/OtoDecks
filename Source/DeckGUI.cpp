@@ -26,6 +26,10 @@ DeckGUI::DeckGUI(
 	addAndMakeVisible(speedSlider);
 	addAndMakeVisible(posSlider);
 
+	addAndMakeVisible(volLabel);
+	addAndMakeVisible(speedLabel);
+	addAndMakeVisible(posLabel);
+
 	addAndMakeVisible(waveformDisplay);
 
 	playButton.addListener(this);
@@ -36,9 +40,29 @@ DeckGUI::DeckGUI(
 	speedSlider.addListener(this);
 	posSlider.addListener(this);
 
-	volSlider.setRange(0.0, 1.0);
-	speedSlider.setRange(0.0, 100.0);
+	volSlider.setRange(0.0, 100.0, 1.0);
+	speedSlider.setRange(0.0, 200.0, 1.0);
 	posSlider.setRange(0.0, 1.0);
+
+	volSlider.setValue(50.0);
+	speedSlider.setValue(100.0);
+	posSlider.setValue(0.0);
+
+	volSlider.setNumDecimalPlacesToDisplay(0);
+	speedSlider.setNumDecimalPlacesToDisplay(0);
+	posSlider.setNumDecimalPlacesToDisplay(0);
+
+	volSlider.setTextValueSuffix(" %");
+	speedSlider.setTextValueSuffix(" %");
+	posSlider.setTextValueSuffix(" s");
+
+	volLabel.setText("Volume", juce::dontSendNotification);
+	speedLabel.setText("Speed", juce::dontSendNotification);
+	posLabel.setText("Position", juce::dontSendNotification);
+	
+	volLabel.attachToComponent(&volSlider, true);
+	speedLabel.attachToComponent(&speedSlider, true);
+	posLabel.attachToComponent(&posSlider, true);
 
 	startTimer(500);
 }
@@ -64,8 +88,8 @@ void DeckGUI::paint(juce::Graphics& g)
 
 	g.setColour(juce::Colours::white);
 	g.setFont(14.0f);
-	g.drawText("DeckGUI", getLocalBounds(),
-		juce::Justification::centred, true);   // draw some placeholder text
+	//g.drawText("DeckGUI", getLocalBounds(),
+	//	juce::Justification::centred, true);   // draw some placeholder text
 }
 
 void DeckGUI::resized()
@@ -73,11 +97,12 @@ void DeckGUI::resized()
 	// This method is where you should set the bounds of any child
 	// components that your component contains..
 	int rowH = getHeight() / 8;
+	auto sliderLeft = 60;
 	playButton.setBounds(0, 0, getWidth(), rowH);
 	stopButton.setBounds(0, rowH, getWidth(), rowH);
-	volSlider.setBounds(0, rowH * 2, getWidth(), rowH);
-	speedSlider.setBounds(0, rowH * 3, getWidth(), rowH);
-	posSlider.setBounds(0, rowH * 4, getWidth(), rowH);
+	volSlider.setBounds(sliderLeft, rowH * 2, getWidth() - sliderLeft - 6, rowH);
+	speedSlider.setBounds(sliderLeft, rowH * 3, getWidth() - sliderLeft - 6, rowH);
+	posSlider.setBounds(sliderLeft, rowH * 4, getWidth() - sliderLeft - 6, rowH);
 	waveformDisplay.setBounds(0, rowH * 5, getWidth(), rowH * 2);
 	loadButton.setBounds(0, rowH * 7, getWidth(), rowH);
 }
@@ -97,19 +122,20 @@ void DeckGUI::buttonClicked(juce::Button* button) {
 			auto fileUri = chooser.getURLResult();
 			player->loadURL(fileUri);
 			waveformDisplay.loadURL(fileUri);
+			posSlider.setRange(0, player->getLengthInSeconds(), 1.0);
 			});
 	}
 }
 
 void DeckGUI::sliderValueChanged(juce::Slider* slider) {
 	if (slider == &volSlider) {
-		player->setGain(slider->getValue());
+		player->setGain(slider->getValue() / 100);
 	}
 	if (slider == &speedSlider) {
-		player->setSpeed(slider->getValue());
+		player->setSpeed(slider->getValue() / 100);
 	}
 	if (slider == &posSlider) {
-		player->setPositionRelative(slider->getValue());
+		player->setPosition(slider->getValue());
 	}
 }
 

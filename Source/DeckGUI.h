@@ -49,6 +49,10 @@ private:
 	juce::Slider volSlider;
 	juce::Slider speedSlider;
 	juce::Slider posSlider;
+	
+	juce::Label volLabel;
+	juce::Label speedLabel;
+	juce::Label posLabel;
 
 	juce::FileChooser chooser{ "Select an audio file..." };
 
