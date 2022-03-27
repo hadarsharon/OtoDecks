@@ -38,6 +38,8 @@ DeckGUI::DeckGUI(
 	stopButton.addListener(this);
 	loadButton.addListener(this);
 
+	dbBox.setText("File not loaded...", juce::dontSendNotification);
+
 	volSlider.addListener(this);
 	speedSlider.addListener(this);
 	posSlider.addListener(this);
@@ -70,8 +72,6 @@ DeckGUI::DeckGUI(
 	volLabel.attachToComponent(&volSlider, true);
 	speedLabel.attachToComponent(&speedSlider, true);
 	posLabel.attachToComponent(&posSlider, true);
-
-	dbBox.setText("File not loaded...");
 
 	startTimer(500);
 }
@@ -135,7 +135,7 @@ void DeckGUI::buttonClicked(juce::Button* button) {
 			speedSlider.setEnabled(true);
 			posSlider.setEnabled(true);
 			std::string gainInDecibels = std::to_string(player->getGainInDecibels()) + " dB";
-			dbBox.setText(gainInDecibels);
+			dbBox.setText(gainInDecibels, juce::dontSendNotification);
 			});
 	}
 }
@@ -145,7 +145,7 @@ void DeckGUI::sliderValueChanged(juce::Slider* slider) {
 		player->setGain(slider->getValue() / 100);
 		if (slider->isEnabled()) {
 			std::string gainInDecibels = std::to_string(player->getGainInDecibels()) + " dB";
-			dbBox.setText(gainInDecibels);
+			dbBox.setText(gainInDecibels, juce::dontSendNotification);
 		}
 	}
 	if (slider == &speedSlider) {

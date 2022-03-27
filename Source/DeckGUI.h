@@ -46,6 +46,8 @@ private:
 	juce::TextButton stopButton{ "STOP" };
 	juce::TextButton loadButton{ "LOAD" };
 
+	juce::Label dbBox;
+
 	juce::Slider volSlider;
 	juce::Slider speedSlider;
 	juce::Slider posSlider;
@@ -53,9 +55,7 @@ private:
 	juce::Label volLabel;
 	juce::Label speedLabel;
 	juce::Label posLabel;
-
-	juce::DrawableText dbBox;
-
+	
 	juce::FileChooser chooser{ "Select an audio file..." };
 
 	DJAudioPlayer* player;
