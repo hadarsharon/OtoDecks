@@ -40,9 +40,10 @@ DeckGUI::DeckGUI(
 	speedSlider.addListener(this);
 	posSlider.addListener(this);
 
+	// TODO: move to function
 	volSlider.setRange(0.0, 100.0, 1.0);
 	speedSlider.setRange(0.0, 200.0, 1.0);
-	posSlider.setRange(0.0, 1.0);
+	posSlider.setRange(0.0, 0.0, 1.0);
 
 	volSlider.setValue(50.0);
 	speedSlider.setValue(100.0);
@@ -55,6 +56,10 @@ DeckGUI::DeckGUI(
 	volSlider.setTextValueSuffix(" %");
 	speedSlider.setTextValueSuffix(" %");
 	posSlider.setTextValueSuffix(" s");
+
+	volSlider.setEnabled(false);
+	speedSlider.setEnabled(false);
+	posSlider.setEnabled(false);
 
 	volLabel.setText("Volume", juce::dontSendNotification);
 	speedLabel.setText("Speed", juce::dontSendNotification);
@@ -122,7 +127,15 @@ void DeckGUI::buttonClicked(juce::Button* button) {
 			auto fileUri = chooser.getURLResult();
 			player->loadURL(fileUri);
 			waveformDisplay.loadURL(fileUri);
-			posSlider.setRange(0, player->getLengthInSeconds(), 1.0);
+			speedSlider.setValue(100.0);
+			double AudioFileLengthInSeconds = player->getLengthInSeconds();
+			posSlider.setRange(0, AudioFileLengthInSeconds, 1.0);
+			posSlider.setValue(0.0);
+			std::string newPosSuffix = " s / " + std::to_string((int)AudioFileLengthInSeconds) + " s";
+			posSlider.setTextValueSuffix(newPosSuffix);
+			volSlider.setEnabled(true);
+			speedSlider.setEnabled(true);
+			posSlider.setEnabled(true);
 			});
 	}
 }
