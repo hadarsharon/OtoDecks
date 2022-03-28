@@ -43,27 +43,33 @@ public:
 	void timerCallback() override;
 
 private:
+	/* Playback buttons (Top of component) */
 	juce::TextButton playButton{ "PLAY" };
 	juce::TextButton stopButton{ "STOP" };
 	juce::TextButton loadButton{ "LOAD" };
 	juce::ArrowButton rewindButton{ "REWIND" , 0.5, juce::Colours::lightgreen };
 	juce::ArrowButton forwardButton{ "FORWARD" , 0.0, juce::Colours::lightgreen };
 
+	/* Add REWIND/FAST-FORWARD labels to arrow buttons since they have no built-in text */
 	juce::Label rewindLabel;
 	juce::Label forwardLabel;
 
+	/* Text box that shows noise in Decibels (just above the waveform) */
 	juce::Label dbBox;
 
+	/* Sliders */
 	juce::Slider granularitySlider;
 	juce::Slider posSlider;
 	juce::Slider volSlider;
 	juce::Slider speedSlider;
-	
+
+	/* Labels for Sliders */
 	juce::Label granularityLabel;
 	juce::Label posLabel;
 	juce::Label volLabel;
 	juce::Label speedLabel;
-	
+
+	/* File chooser to couple with Load button */
 	juce::FileChooser chooser{ "Select an audio file..." };
 
 	DJAudioPlayer* player;
