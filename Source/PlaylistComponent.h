@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 #include <vector>
 #include <string>
+#include "DJAudioPlayer.h"
 
 //==============================================================================
 /*
@@ -20,7 +21,7 @@
 class PlaylistComponent : public juce::Component, public juce::TableListBoxModel, public juce::Button::Listener
 {
 public:
-	PlaylistComponent();
+	PlaylistComponent(DJAudioPlayer* player1, DJAudioPlayer* player2);
 	~PlaylistComponent() override;
 
 	void paint(juce::Graphics&) override;
@@ -39,6 +40,10 @@ private:
 	juce::TableListBox tableComponent;
 	std::vector<juce::URL> tracks;
 	std::vector<std::string> trackDurations;
+	
+	DJAudioPlayer* player1;
+	DJAudioPlayer* player2;
+
 
 	std::string secondsToPlaylistDuration(double seconds);
 	std::string sizeBytesToMegabytesString(juce::int64 fileSizeInBytes);

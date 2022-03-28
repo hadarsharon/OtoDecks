@@ -62,7 +62,6 @@ DeckGUI::DeckGUI(
 	speedSlider.addListener(this);
 	volSlider.addListener(this);
 
-	// TODO: move to function
 	granularitySlider.setRange(1.0, 10.0, 1.0);
 	posSlider.setRange(0.0, 0.0, 1.0);
 	speedSlider.setRange(0.0, 200.0, 1.0);

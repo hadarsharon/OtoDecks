@@ -12,17 +12,18 @@
 #include "PlaylistComponent.h"
 
 //==============================================================================
-PlaylistComponent::PlaylistComponent()
+PlaylistComponent::PlaylistComponent(DJAudioPlayer* _player1, DJAudioPlayer* _player2) : player1(_player1), player2(_player2)
 {
 	// In your constructor, you should add any child components, and
 	// initialise any special settings that your component needs.
 
-	tableComponent.getHeader().addColumn("Title", 1, 140);
-	tableComponent.getHeader().addColumn("Duration", 2, 140);
-	tableComponent.getHeader().addColumn("Size", 3, 140);
-	tableComponent.getHeader().addColumn("Type", 4, 140);
-	tableComponent.getHeader().addColumn("Deck 1", 5, 130);
-	tableComponent.getHeader().addColumn("Deck 2", 5, 130);
+	tableComponent.getHeader().addColumn("Title", 1, 150);
+	tableComponent.getHeader().addColumn("Duration", 2, 100);
+	tableComponent.getHeader().addColumn("Size", 3, 100);
+	tableComponent.getHeader().addColumn("Type", 4, 100);
+	tableComponent.getHeader().addColumn("Deck 1", 5, 100);
+	tableComponent.getHeader().addColumn("Deck 2", 6, 100);
+	tableComponent.getHeader().addColumn("", 7, 100);
 	tableComponent.setModel(this);
 
 	addAndMakeVisible(tableComponent);
@@ -95,10 +96,21 @@ juce::Component* PlaylistComponent::refreshComponentForCell(int rowNumber, int c
 	if (columnId == 5 || columnId == 6) {
 		if (existingComponentToUpdate == nullptr) {
 			juce::TextButton* btn = new juce::TextButton{ "play" };
-			juce::String id{std::to_string(rowNumber)};
+			std::string buttonId = std::to_string(columnId) + std::to_string(rowNumber);
+			juce::String id{buttonId};
 			btn->setComponentID(id);
 			btn->addListener(this);
 			existingComponentToUpdate = new juce::TextButton{ "Play" };
+		}
+	}
+	if (columnId == 7) {
+		if (existingComponentToUpdate == nullptr) {
+			juce::TextButton* btn = new juce::TextButton{ "remove" };
+			std::string buttonId = std::to_string(columnId) + std::to_string(rowNumber);
+			juce::String id{ buttonId };
+			btn->setComponentID(id);
+			btn->addListener(this);
+			existingComponentToUpdate = new juce::TextButton{ "Remove" };
 		}
 	}
 	return existingComponentToUpdate;
@@ -106,7 +118,25 @@ juce::Component* PlaylistComponent::refreshComponentForCell(int rowNumber, int c
 
 void PlaylistComponent::buttonClicked(juce::Button* button)
 {
-	int id = std::stoi(button->getComponentID().toStdString());
+	DJAudioPlayer* player;
+
+	std::string buttonId = button->getComponentID().toStdString();
+	int columnId = std::stoi(buttonId.substr(0, 1));
+	int rowNumber = std::stoi(buttonId.substr(1));
+
+	if (columnId == 7) {
+		tableComponent.removeChildComponent(tableComponent.getChildComponent(rowNumber));
+		tableComponent.updateContent();
+	}
+	else if (columnId == 5) {
+		player = player1;
+		player->loadURL(tracks[rowNumber]);
+	}
+	else {
+		player = player2;
+		player->loadURL(tracks[rowNumber]);
+	}
+
 }
 
 std::string PlaylistComponent::secondsToPlaylistDuration(double seconds)
