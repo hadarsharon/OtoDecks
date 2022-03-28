@@ -31,10 +31,10 @@ public:
 	void start();
 	void stop();
 
-	/** get the relative position of the playhead */
+	/** get the relative position of the playhead (0.0 to 1.0) */
 	double getPositionRelative();
 
-	/** get the absolute position of the playhead */
+	/** get the absolute position of the playhead (seconds) */
 	double getPositionAbsolute();
 
 	/** get length of audio file in seconds */
