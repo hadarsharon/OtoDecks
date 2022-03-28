@@ -5,11 +5,6 @@
 #include "DeckGUI.h"
 #include "PlaylistComponent.h"
 
-//==============================================================================
-/*
-	This component lives inside our window, and this is where you should put all
-	your controls and content.
-*/
 class MainComponent : public juce::AudioAppComponent
 {
 public:
@@ -27,21 +22,19 @@ public:
 	void resized() override;
 
 private:
-	//==============================================================================
-	// Your private member variables go here...
 	juce::AudioFormatManager formatManager;
 	juce::AudioThumbnailCache thumbCache{ 100 };
 
-
-	DJAudioPlayer player1{formatManager};
+	// Audio players for Deck 1 and Deck 2 (controls Audio playback etc.)
+	DJAudioPlayer player1{ formatManager };
 	DJAudioPlayer player2{ formatManager };
 
+	// Playlist/Library component
 	PlaylistComponent playlistComponent{ &player1, &player2 };
 
+	// Deck 1 and Deck 2 GUIs respectively
 	DeckGUI deckGUI1{ &player1, formatManager, thumbCache, &playlistComponent };
 	DeckGUI deckGUI2{ &player2, formatManager, thumbCache, &playlistComponent };
-
-
 
 	juce::MixerAudioSource mixerSource;
 
