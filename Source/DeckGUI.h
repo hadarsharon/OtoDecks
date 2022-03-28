@@ -12,6 +12,7 @@
 
 #include <JuceHeader.h>
 #include "DJAudioPlayer.h"
+#include "PlaylistComponent.h"
 #include "WaveformDisplay.h"
 
 //==============================================================================
@@ -24,7 +25,7 @@ class DeckGUI : public juce::Component,
 	public juce::Timer
 {
 public:
-	DeckGUI(DJAudioPlayer* player, juce::AudioFormatManager& formatManagerToUse, juce::AudioThumbnailCache& cacheToUse);
+	DeckGUI(DJAudioPlayer* player, juce::AudioFormatManager& formatManagerToUse, juce::AudioThumbnailCache& cacheToUse, PlaylistComponent* playlist);
 	~DeckGUI() override;
 
 	void paint(juce::Graphics&) override;
@@ -45,8 +46,8 @@ private:
 	juce::TextButton playButton{ "PLAY" };
 	juce::TextButton stopButton{ "STOP" };
 	juce::TextButton loadButton{ "LOAD" };
-	juce::ArrowButton rewindButton{ "REWIND" , 0.5, juce::Colours::lightseagreen };
-	juce::ArrowButton forwardButton{ "FORWARD" , 0.0, juce::Colours::lightseagreen };
+	juce::ArrowButton rewindButton{ "REWIND" , 0.5, juce::Colours::greenyellow };
+	juce::ArrowButton forwardButton{ "FORWARD" , 0.0, juce::Colours::yellowgreen };
 
 	juce::Label rewindLabel;
 	juce::Label forwardLabel;
@@ -66,6 +67,8 @@ private:
 	juce::FileChooser chooser{ "Select an audio file..." };
 
 	DJAudioPlayer* player;
+
+	PlaylistComponent* playlist;
 
 	WaveformDisplay waveformDisplay;
 

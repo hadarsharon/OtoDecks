@@ -15,7 +15,8 @@
 DeckGUI::DeckGUI(
 	DJAudioPlayer* _player,
 	juce::AudioFormatManager& formatManagerToUse,
-	juce::AudioThumbnailCache& cacheToUse) : player(_player),
+	juce::AudioThumbnailCache& cacheToUse,
+	PlaylistComponent* _playlist) : player(_player), playlist(_playlist),
 	waveformDisplay(formatManagerToUse, cacheToUse)
 {
 	addAndMakeVisible(playButton);
@@ -165,6 +166,7 @@ void DeckGUI::buttonClicked(juce::Button* button) {
 				posSlider.setEnabled(true);
 				std::string gainInDecibels = std::to_string(player->getGainInDecibels()) + " dB";
 				dbBox.setText(gainInDecibels, juce::dontSendNotification);
+				playlist->addTrack(fileUri.getFileName().toStdString(), AudioFileLengthInSeconds, fileUri.getLocalFile().getSize());
 			}
 			});
 	}

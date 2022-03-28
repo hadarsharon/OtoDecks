@@ -16,15 +16,10 @@ PlaylistComponent::PlaylistComponent()
 {
 	// In your constructor, you should add any child components, and
 	// initialise any special settings that your component needs.
-	trackTitles.push_back("Track 1");
-	trackTitles.push_back("Track 2");
-	trackTitles.push_back("Track 3");
-	trackTitles.push_back("Track 4");
-	trackTitles.push_back("Track 5");
-	trackTitles.push_back("Track 6");
 
-	tableComponent.getHeader().addColumn("Track title", 1, 400);
-	tableComponent.getHeader().addColumn("Artist", 2, 400);
+	tableComponent.getHeader().addColumn("Title", 1, 250);
+	tableComponent.getHeader().addColumn("Duration", 2, 250);
+	tableComponent.getHeader().addColumn("Size", 3, 250);
 	tableComponent.setModel(this);
 
 	addAndMakeVisible(tableComponent);
@@ -78,25 +73,56 @@ void PlaylistComponent::paintRowBackground(juce::Graphics& g, int rowNumber, int
 
 void PlaylistComponent::paintCell(juce::Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected)
 {
-	g.drawText(trackTitles[rowNumber], 2, 0, width - 4, height, juce::Justification::centredLeft, true);
+	if (columnId == 1) {
+		g.drawText(trackTitles[rowNumber], 2, 0, width - 4, height, juce::Justification::centredLeft, true);
+	}
+	if (columnId == 2) {
+		g.drawText(trackDurations[rowNumber], 2, 0, width - 4, height, juce::Justification::centredLeft, true);
+	}
+	if (columnId == 3) {
+		g.drawText(trackSizes[rowNumber], 2, 0, width - 4, height, juce::Justification::centredLeft, true);
+	}
 }
 
-juce::Component* PlaylistComponent::refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, juce::Component* existingComponentToUpdate)
-{
-	if (columnId == 1) {
-		if (existingComponentToUpdate == nullptr) {
-			juce::TextButton* btn = new juce::TextButton{ "play" };
-			juce::String id{std::to_string(rowNumber)};
-			btn->setComponentID(id);
-			btn->addListener(this);
-			existingComponentToUpdate = new juce::TextButton{ "Play" };
-		}
-	}
-	return existingComponentToUpdate;
-}
+//juce::Component* PlaylistComponent::refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, juce::Component* existingComponentToUpdate)
+//{
+//	if (columnId == 1) {
+//		if (existingComponentToUpdate == nullptr) {
+//			juce::TextButton* btn = new juce::TextButton{ "play" };
+//			juce::String id{std::to_string(rowNumber)};
+//			btn->setComponentID(id);
+//			btn->addListener(this);
+//			existingComponentToUpdate = new juce::TextButton{ "Play" };
+//		}
+//	}
+//	return existingComponentToUpdate;
+//}
 
 void PlaylistComponent::buttonClicked(juce::Button* button)
 {
 	int id = std::stoi(button->getComponentID().toStdString());
+}
 
+std::string PlaylistComponent::secondsToPlaylistDuration(double seconds)
+{
+	int minutes;
+	minutes = (int)seconds / 60;
+	std::string duration = std::to_string(minutes) + ":" + std::to_string((int)seconds % 60);
+	return duration;
+}
+
+std::string PlaylistComponent::sizeBytesToMegabytesString(juce::int64 fileSizeInBytes)
+{
+	long double kilobytes = fileSizeInBytes / 1024;
+	long double megabytes = kilobytes / 1024;
+	std::string fileSize = std::to_string(megabytes) + " MB";
+	return fileSize;
+}
+
+void PlaylistComponent::addTrack(std::string trackName, double trackDuration, juce::int64 trackSize)
+{
+	trackTitles.push_back(trackName);
+	trackDurations.push_back(secondsToPlaylistDuration(trackDuration));
+	trackSizes.push_back(sizeBytesToMegabytesString(trackSize));
+	tableComponent.updateContent();
 }
