@@ -46,8 +46,8 @@ private:
 	juce::TextButton playButton{ "PLAY" };
 	juce::TextButton stopButton{ "STOP" };
 	juce::TextButton loadButton{ "LOAD" };
-	juce::ArrowButton rewindButton{ "REWIND" , 0.5, juce::Colours::greenyellow };
-	juce::ArrowButton forwardButton{ "FORWARD" , 0.0, juce::Colours::yellowgreen };
+	juce::ArrowButton rewindButton{ "REWIND" , 0.5, juce::Colours::lightgreen };
+	juce::ArrowButton forwardButton{ "FORWARD" , 0.0, juce::Colours::lightgreen };
 
 	juce::Label rewindLabel;
 	juce::Label forwardLabel;

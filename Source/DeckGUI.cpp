@@ -166,7 +166,7 @@ void DeckGUI::buttonClicked(juce::Button* button) {
 				posSlider.setEnabled(true);
 				std::string gainInDecibels = std::to_string(player->getGainInDecibels()) + " dB";
 				dbBox.setText(gainInDecibels, juce::dontSendNotification);
-				playlist->addTrack(fileUri.getFileName().toStdString(), AudioFileLengthInSeconds, fileUri.getLocalFile().getSize());
+				playlist->addTrack(fileUri,	AudioFileLengthInSeconds);
 			}
 			});
 	}
