@@ -33,18 +33,25 @@ public:
 	juce::Component* refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, juce::Component* existingComponentToUpdate) override;
 	void buttonClicked(juce::Button* button) override;
 
+	/* Add a new track to the playlist after loading it using the Load button */
 	void addTrack(juce::URL track, double trackDuration);
 
 
 private:
+	/* Playlist table component to be rendered with data as tracks load */
 	juce::TableListBox tableComponent;
+
+	/* Stores the files so as to be able to access all of their attributes */
 	std::vector<juce::URL> tracks;
+
+	/* Stores the file durations since these are calculated from the player with the loaded audio and not the file itself */
 	std::vector<std::string> trackDurations;
-	
+
+	/* References to the 2 decks' players so as to use their methods and the like */
 	DJAudioPlayer* player1;
 	DJAudioPlayer* player2;
 
-
+	/* Helper functions for prettifying the playlist table meta data - for example file size in MB instead of bytes */
 	std::string secondsToPlaylistDuration(double seconds);
 	std::string sizeBytesToMegabytesString(juce::int64 fileSizeInBytes);
 
