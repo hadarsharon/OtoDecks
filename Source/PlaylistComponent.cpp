@@ -17,9 +17,9 @@ PlaylistComponent::PlaylistComponent(DJAudioPlayer* _player1, DJAudioPlayer* _pl
 	// In your constructor, you should add any child components, and
 	// initialise any special settings that your component needs.
 
-	tableComponent.getHeader().addColumn("Title", 1, 150);
-	tableComponent.getHeader().addColumn("Duration", 2, 100);
-	tableComponent.getHeader().addColumn("Size", 3, 100);
+	tableComponent.getHeader().addColumn("Title", 1, 160);
+	tableComponent.getHeader().addColumn("Duration", 2, 120);
+	tableComponent.getHeader().addColumn("Size", 3, 120);
 	tableComponent.getHeader().addColumn("Type", 4, 100);
 	tableComponent.getHeader().addColumn("Deck 1", 5, 100);
 	tableComponent.getHeader().addColumn("Deck 2", 6, 100);
