@@ -91,7 +91,7 @@ juce::Component* PlaylistComponent::refreshComponentForCell(int rowNumber, int c
 			// Identifier uses column as first digit and row number as the rest
 			// e.g. 523 - column 5 (i.e. Deck 1), row 23 -> "Play track #23 on Deck 1"
 			std::string buttonId = std::to_string(columnId) + std::to_string(rowNumber);
-			juce::String id{buttonId};
+			juce::String id{ buttonId };
 			btn->setComponentID(id);
 			btn->addListener(this);
 			existingComponentToUpdate = new juce::TextButton{ "Play" };
@@ -136,8 +136,8 @@ void PlaylistComponent::buttonClicked(juce::Button* button)
 }
 
 std::string PlaylistComponent::secondsToPlaylistDuration(double seconds)
-/* 
-Helper function to prettify duration in seconds to more readable format, e.g. 73s -> 01:13 
+/*
+Helper function to prettify duration in seconds to more readable format, e.g. 73s -> 01:13
 This goes in the `Duration` column
 */
 {
@@ -148,7 +148,7 @@ This goes in the `Duration` column
 }
 
 std::string PlaylistComponent::sizeBytesToMegabytesString(juce::int64 fileSizeInBytes)
-/* 
+/*
 Helper function to prettify file size in bytes to more readable format (in megabytes, e.g. 1460000 -> 1.46 MB)
 This goes in the 'Size' column
 */
